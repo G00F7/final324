@@ -83,20 +83,25 @@
       ?>
       <table>
         <tr>
-          <td>Nro Tramite</td>
           <td>Flujo</td>
           <td>Proceso</td>
+          <td>Nro Tramite</td>
           <td>Operacion</td>
         </tr>
         <?php
-            echo "<tr>";
-            echo "<td>".$fila->NumeroTramite."</td>";
-            echo "<td>".$fila->Flujo."</td>";
-            echo "<td>".$fila->Proceso."</td>"
+          if (!empty($fila)){
+              echo "<tr>";
+              echo "<td>".$fila->Flujo."</td>";
+              echo "<td>".$fila->Proceso."</td>";
+              echo "<td>".$fila->NumeroTramite."</td>";  
         ?>
-            <td><a href='<?= base_url().'bandeja/flujo/'.$fila->Flujo.'/'.$fila->Proceso;?>'>Editar</a></td>";
+            <td><a href='<?= base_url().'bandeja/flujo/'.$fila->Flujo.'/'.$fila->Proceso;?>'>Editar</a></td>
         <?php
             echo "</tr>";
+          }else{
+            echo "Usted no tiene ningun tramite pendiente";
+          }
+
         ?>
       </table>
     </section>
@@ -105,35 +110,39 @@
     <section id="experience" class="resume">
       <div class="section-header">
         <h2>Flujo Proceso Concluido Para la Inscripcion</h2>
-      </div><!-- 
+      </div> 
       <?php
-      /* $sql = "select * from flujoprocesoseguimiento fp, flujoproceso fl ";
-      $sql .= "where fp.Usuario = '".$_SESSION["sigla"]."' and fp.proceso = fl.proceso ";
-      $resultado = mysqli_query($con, $sql); */
+      $ci = &get_instance();
+      $ci->load->model("MBandeja");
+      $fila = $ci->MBandeja->busqueda1();
       ?>
-      <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
               <table>
               <tr>
-                <td>Nro Tramite</td>
                 <td>Flujo</td>
                 <td>Proceso</td>
-                <td>Operacion</td>
+                <td>Nro Tramite</td>
               </tr>
               <?php
-             /*  while($fila = mysqli_fetch_array($resultado)){
+               foreach($fila as $dato){
                 echo "<tr>";
-                echo "<td>".$fila["NumeroTramite"]."</td>";
-                echo "<td>".$fila["Flujo"]."</td>";
-                echo "<td>".$fila["Pantalla"]."</td>";
-                echo "<td><a href='flujo.php?flujo=".$fila["Flujo"]."&proceso=".$fila["Proceso"]."'>Ver</a></td>";
-                echo "</tr>";
-              } */
+                $cont = 1;
+                foreach($dato as $valores){
+                  if ($cont == 1){
+                    echo "<td>".$valores."</td>";
+                  }elseif($cont == 2){
+                    echo "<td>".$valores."</td>";
+                  }elseif($cont == 3){
+                    echo "<td>".$valores."</td>";
+                  }
+                  if ($cont > 3)
+                    break;
+                  else
+                    $cont = $cont + 1;
+                }
+                 echo "</tr>";
+               }
               ?>
               </table>
-            </div> -->
-          <!-- Page 1 End -->  
-      </div>
     </section>
     <!-- Section Resume end -->
   </div>
